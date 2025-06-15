@@ -1,4 +1,5 @@
-# .gitignore
+# Ignore browser cache/user data
 AppData/
 *.log
-*.lock
+.env
+node_modules/
