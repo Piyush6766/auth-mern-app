@@ -6,8 +6,7 @@ import { handleError, handleSuccess } from "../utils";
 import { useNavigate } from "react-router-dom";
 
 function Login() {
-  const [signupInfo, setSignupInfo] = React.useState({
-    name: "",
+  const [loginInfo, setLoginInfo] = React.useState({
     email: "",
     password: "",
   });
@@ -17,16 +16,16 @@ function Login() {
   const handleChange = (e) => {
     const { name, value } = e.target;
     console.log(name, value);
-    setSignupInfo((prev) => ({
+    setLoginInfo((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSignup = async (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    const { name, email, password } = signupInfo;
-    if (!name || !email || !password) {
+    const { email, password } = loginInfo;
+    if (!email || !password) {
       return handleError("Please fill all the fields");
     }
     if (password.length < 6) {
@@ -34,50 +33,47 @@ function Login() {
     }
 
     try {
-      const url = "http://localhost:8080/auth/signup";
+      const url = "http://localhost:8080/auth/login";
       const response = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(signupInfo),
+        body: JSON.stringify(loginInfo),
       });
       const result = await response.json();
-      const { success, message } = result;
+      const { success, message, token, user } = result;
+
       if (success) {
         handleSuccess(message);
+        const storage = localStorage;
+        localStorage.setItem("jwtToken", token);
+        localStorage.setItem("name", user.name);
+        localStorage.setItem("email", user.email); // optional
+
+        console.log(storage);
+
+        // Redirect to home page after successful login
         setTimeout(() => {
-          navigate("/login");
+          navigate("/home");
         }, 2000);
       }
-      if (response.status === 409) {
-        return handleError(result.message); // "User already exists, please login"
-      }
+  
       if (!success) {
-        return handleError(message || "Signup failed, please try again");
+        return handleError(message || "Login failed, please try again");
       }
       // Log the result for debugging purposes
       console.log(result);
     } catch (error) {
       console.error("Error during signup:", error);
-      handleError("Signup failed. Please try again later.");
+      handleError("Login failed. Please try again later.");
     }
   };
 
   return (
     <div className="container">
       <h1>Login</h1>
-      <form action="" onSubmit={handleSignup}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="name"
-            autoFocus
-            placeholder="Enter your name"
-          />
-        </div>
+      <form action="" onSubmit={handleLogin}>
         <div>
           <label htmlFor="email">Email</label>
           <input
@@ -85,6 +81,7 @@ function Login() {
             type="email"
             name="email"
             placeholder="Enter your email id"
+            value={loginInfo.email}
           />
         </div>
         <div>
@@ -94,11 +91,12 @@ function Login() {
             type="password"
             name="password"
             placeholder="Enter your password"
+            value={loginInfo.password}
           />
         </div>
         <button type="submit">Login</button>
         <span>
-          Not have account?
+          Don't have account?
           <Link to="/signup">SignUp </Link>
         </span>
       </form>
