@@ -5,7 +5,7 @@ import { ToastContainer } from "react-toastify";
 
 function Home() {
   const [loggedInUser, setLoggedInUser] = React.useState("");
-  const [products, setProducts] = React.useState([]); 
+  const [products, setProducts] = React.useState([]);
 
   const navigate = useNavigate();
 
@@ -42,10 +42,13 @@ function Home() {
       const result = await response.json();
       if (response.ok) {
         console.log("Products fetched successfully:", result);
-        setProducts(result.products);
+        setProducts(result); // NOT result.products
+
       } else {
         console.error("Failed to fetch products:", result);
       }
+
+
     } catch (error) {
       console.error("Error fetching products:", error);
     }
@@ -54,9 +57,11 @@ function Home() {
   useEffect(() => {
     fetchProducts();
   }, []);
+  
+
 
   return (
-    <div className="container">
+    <div className="">
       <h1>This is the home page.</h1>
       <p>{loggedInUser}</p>
       <p>
@@ -68,7 +73,7 @@ function Home() {
       <h2>Available Products</h2>
      {Array.isArray(products) && products.length > 0 ? (
   products.map((product) => (
-    <div className="product-card">
+    <div key={product._id || product.id || product.name} className="product-card">
       <h3>{product.name}</h3>
       <p>Price: ${product.price}</p>
       <p>Description: {product.description}</p>

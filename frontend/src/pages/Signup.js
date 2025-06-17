@@ -65,44 +65,46 @@ function Signup() {
   };
 
   return (
-    <div className="container">
-      <h1>SignUp</h1>
-      <form action="" onSubmit={handleSignup}>
-        <div>
-          <label htmlFor="name">Name</label>
-          <input
-            onChange={handleChange}
-            type="text"
-            name="name"
-            autoFocus
-            placeholder="Enter your name"
-          />
-        </div>
-        <div>
-          <label htmlFor="email">Email</label>
-          <input
-            onChange={handleChange}
-            type="email"
-            name="email"
-            placeholder="Enter your email id"
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password</label>
-          <input
-            onChange={handleChange}
-            type="password"
-            name="password"
-            placeholder="Enter your password"
-          />
-        </div>
-        <button type="submit">Signup</button>
-        <span>
-          Already have account?
-          <Link to="/login">Login </Link>
-        </span>
-      </form>
-      <ToastContainer />
+    <div className="main-container">
+      <div className="header-container">
+        <h1>SignUp</h1>
+        <form action="" onSubmit={handleSignup}>
+          <div>
+            <label htmlFor="name">Name</label>
+            <input
+              onChange={handleChange}
+              type="text"
+              name="name"
+              autoFocus
+              placeholder="Enter your name"
+            />
+          </div>
+          <div>
+            <label htmlFor="email">Email</label>
+            <input
+              onChange={handleChange}
+              type="email"
+              name="email"
+              placeholder="Enter your email id"
+            />
+          </div>
+          <div>
+            <label htmlFor="password">Password</label>
+            <input
+              onChange={handleChange}
+              type="password"
+              name="password"
+              placeholder="Enter your password"
+            />
+          </div>
+          <button type="submit">Signup</button>
+          <span>
+            Already have account?
+            <Link to="/login">Login </Link>
+          </span>
+        </form>
+        <ToastContainer />
+      </div>
     </div>
   );
 }

@@ -71,7 +71,8 @@ function Login() {
   };
 
   return (
-    <div className="container">
+    <div className="main-container">
+    <div className="header-container">
       <h1>Login</h1>
       <form action="" onSubmit={handleLogin}>
         <div>
@@ -101,6 +102,7 @@ function Login() {
         </span>
       </form>
       <ToastContainer />
+    </div>
     </div>
   );
 }
