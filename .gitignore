@@ -1,5 +1,23 @@
-# Ignore browser cache/user data
-AppData/
-*.log
-.env
+# ---- Global ----
 node_modules/
+.env
+.DS_Store
+*.log
+npm-debug.log*
+
+
+# ---- Frontend (React - client/) ----
+client/node_modules/
+client/.env
+client/.DS_Store
+client/build/
+
+# ---- Backend (Node.js - server/) ----
+server/node_modules/
+server/.env
+server/.DS_Store
+
+# ---- Vercel and Build Related ----
+.vercel/
+dist/
+build/
